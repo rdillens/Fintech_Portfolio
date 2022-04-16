@@ -3,6 +3,12 @@
 *.dat
 *.dir
 
+# Test files
+*_test*
+
+# Output files
+data/output/
+
 # Data directory
 # data/
 
