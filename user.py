@@ -2,6 +2,7 @@ import logging
 import shelve
 import questionary
 from utils import helpers as hf
+import fire
 
 class User:
     def __init__(self, username=None):
@@ -40,8 +41,8 @@ class User:
         return {'Credit Score': credit_score, 'Monthly Debt': monthly_debt, 'Monthly Income': monthly_income, 'Loan Amount': loan_amount, 'Home Value': home_value}
 
 
-def run():
-    user = User()
+def run(username=None):
+    user = User(username)
     username = user.username
     logging.info(f"Hello, {username}!")
     hf.create_directory(hf.shelf_path)
@@ -50,10 +51,14 @@ def run():
             user.user_dict = sh[username]
         else:
             sh[username] = user.create_user_dict()
-    print(user.user_dict)
+        print(user.user_dict)
+        while questionary.confirm("Update financial info?").ask():
+            user.user_dict['Financial Info'] = user.get_financial_info()
+        else:
+            sh[username] = user.user_dict
 
 if __name__ == "__main__":
     logging.basicConfig(
         # filename='debug.log', 
         level=logging.DEBUG)
-    run()
+    fire.Fire(run)
