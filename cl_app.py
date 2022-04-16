@@ -1,6 +1,8 @@
 import logging
 import shelve
 import questionary
+import fire
+
 from utils import helpers as hf
 
 from user import User
@@ -69,8 +71,8 @@ def save_qualifying_loans(qualifying_loans):
         save_csv(filepath, qualifying_loans)
         print(f"File {filename} saved to the data/output folder.")
 
-def run():
-    user = User()
+def run(username=None):
+    user = User(username)
     username = user.username
     logging.info(f"Hello, {username}!")
     hf.create_directory(hf.shelf_path)
@@ -103,4 +105,4 @@ if __name__ == "__main__":
     logging.basicConfig(
         # filename='debug.log', 
         level=logging.DEBUG)
-    run()
+    fire.Fire(run)
