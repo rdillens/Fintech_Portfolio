@@ -5,7 +5,13 @@ This contains a helper function for loading and saving CSV files.
 
 """
 import csv
+import sys
+from pathlib import Path
 
+# Default CSV file path for banking data
+csv_dir = "data"
+csv_name = "daily_rate_sheet.csv"
+csv_path = csv_dir + "/" + csv_name
 
 def load_csv(csvpath):
     """Reads the CSV file from path provided.
@@ -34,3 +40,18 @@ def save_csv(path, data):
         csvwriter = csv.writer(csvfile, delimiter=',')
         for row in data:
             csvwriter.writerow(row)
+
+
+def load_bank_data():
+    """Loads banking data from CSV file.
+    The default path is "data/daily_rate_sheet.csv"
+
+    Returns:
+        The bank data from the data rate sheet CSV file.
+    """
+
+    csvpath = Path(csv_path)
+    if not csvpath.exists():
+        sys.exit(f"Oops! Can't find this path: {csvpath}")
+
+    return load_csv(csvpath)
