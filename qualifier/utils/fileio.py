@@ -10,6 +10,7 @@ from pathlib import Path
 
 # Default CSV file path for banking data
 csv_dir = "data"
+csv_output_dir = csv_dir + "/" + "output"
 csv_name = "daily_rate_sheet.csv"
 csv_path = csv_dir + "/" + csv_name
 
@@ -36,6 +37,9 @@ def load_csv(csvpath):
     return data
 
 def save_csv(path, data):
+    if not Path(csv_output_dir).exists():
+        Path(csv_output_dir).mkdir(parents=True, exist_ok=True)
+
     with open(path, 'w', newline='') as csvfile:
         csvwriter = csv.writer(csvfile, delimiter=',')
         for row in data:
